@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - 杜瑶</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1a237e;
+            --secondary-blue: #3f51b5;
+            --accent-blue: #2196f3;
+            --light-blue: #e3f2fd;
+            --dark-gray: #212121;
+            --medium-gray: #757575;
+            --light-gray: #fafafa;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .hero-title {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 8px 32px rgba(96, 165, 250, 0.3);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .timeline {
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #60a5fa, #a78bfa);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            background: #60a5fa;
+            border-radius: 50%;
+            border: 3px solid #1e293b;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-semibold">
+                    <a href="index.html">杜瑶</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="projects.html" class="nav-link">项目</a>
+                    <a href="research.html" class="nav-link">研究</a>
+                    <a href="about.html" class="nav-link text-blue-400">关于</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 个人简介 -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <img src="resources/avatar.png" alt="杜瑶" class="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-white/20 shadow-2xl">
+                <h1 class="hero-title text-4xl md:text-5xl font-bold mb-4">关于我</h1>
+                <p class="text-xl text-gray-300">
+                    一个还在摸索的交互设计研究生
+                </p>
+            </div>
+            
+            <div class="glass-card rounded-2xl p-8 mb-12">
+                <h2 class="text-2xl font-semibold mb-6">个人故事</h2>
+                <div class="space-y-4 text-gray-300 leading-relaxed">
+                    <p>
+                        嗨，我是杜瑶——目前还在东南大学机械工程学院「设计学」专业摸爬滚打中。
+                         研究兴趣很简单：<strong class="text-blue-400">用认知科学让AI更好用，用设计让复杂信息变简单</strong>。
+                    </p>
+                    <p>
+                        在东南大学机械工程学院设计学专业的学习中，我专注于将认知心理学的理论应用到实际的界面设计中。
+                        通过Unity构建交互原型，结合眼动追踪和行为数据分析，我试图理解用户与AI系统交互时的认知过程，
+                        并基于这些洞察来优化界面设计。
+                    </p>                    
+                    <p>
+                        我相信，未来的AI系统不仅要智能，更要"贴心"。通过深入理解人类的认知特点和交互习惯，
+                        我们可以设计出更加人性化、更加高效的AI界面，让技术真正服务于人类。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 教育背景 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">教育背景</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">东南大学 · 设计学硕士</h3>
+                            <span class="text-sm text-gray-400">2023.09 - 2026.06</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            机械工程学院设计学专业，专注于人因工程与AI交互设计研究
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold mb-2 text-blue-400">核心课程</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• 人机工程学 (94分)</li>
+                                    <li>• 神经设计学概论 (92分)</li>
+                                    <li>• 设计符号与语义 (92分)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2 text-green-400">研究方向</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• RLHF界面优化</li>
+                                    <li>• 认知负荷评估</li>
+                                    <li>• 眼动追踪研究</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">重庆大学 · 工业设计学士</h3>
+                            <span class="text-sm text-gray-400">2019.09 - 2023.06</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            机械与运载工程学院工业设计专业，均分86.64/100
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold mb-2 text-purple-400">优秀课程</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• 设计心理学 (97分)</li>
+                                    <li>• 交互设计与用户体验 (93分)</li>
+                                    <li>• 产品创新设计管理 (92分)</li>
+                                    <li>• 计算机辅助设计 (91分)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2 text-orange-400">荣誉奖项</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• 国家奖学金</li>
+                                    <li>• 互联网+国赛金奖</li>
+                                    <li>• 重庆市创新创业先进个人</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 技能 proficiency -->
+    <section class="pb-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">专业技能</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- 技术技能 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold mb-8">技术技能</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Python</span>                                
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Unity/C#</span>                               
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Figma/设计工具</span>                               
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>SPSS/数据分析</span>                                
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>SolidWorks/CATIA</span>                                
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 研究技能 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold mb-8">研究技能</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>实验设计</span>                               
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="92"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>用户研究</span>                               
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="88"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>眼动追踪</span>                                
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>数据分析</span>                               
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>学术论文</span>                                
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="88"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 实习经历 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">实习经历</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">中冶赛迪集团有限公司 · 建模制图师</h3>
+                            <span class="text-sm text-gray-400">2022.07 - 2023.08</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            使用SolidWorks完成机械零部件与装配体建模，独立输出近300张A0图纸
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold mb-2 text-blue-400">主要职责</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• 机械零部件三维建模</li>
+                                    <li>• 装配体设计与优化</li>
+                                    <li>• A0工程图纸输出</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2 text-green-400">工作成果</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• 输出近300张工程图纸</li>
+                                    <li>• 涵盖结构件、装配件</li>
+                                    <li>• 完成数套轧钢装备体的建模与装配</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">浪尖渝力科技有限公司 · 交互设计师</h3>
+                            <span class="text-sm text-gray-400">2022.06 - 2022.07</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            根据用户需求完成高保真界面设计，配合工程与客户团队推进产品原型展示与交付
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold mb-2 text-purple-400">工作内容</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• 高保真界面设计</li>
+                                    <li>• 用户流程优化</li>
+                                    <li>• 原型制作与展示</li>
+                                    <li>• 客户沟通协作</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2 text-orange-400">项目成果</h4>
+                                <ul class="text-sm text-gray-400 space-y-1">
+                                    <li>• 完成5个核心界面</li>
+                                    <li>• 产品成功交付</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 实践经历 -->
+    <section class="pb-20 px-6">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-10 text-center">实践经历</h2>
+        <div class="glass-card p-8 rounded-xl text-white">
+        <!-- 一条式，左对齐，细分割线 -->
+        <div class="divide-y divide-gray-600/30 space-y-0"><!-- 细线分隔 -->
+
+        <!-- 学生工作 -->
+        <div class="flex items-start space-x-4 py-6">
+            <div class="text-2xl text-blue-400">🎓</div>
+            <div class="flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">学生工作</h3>
+            <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                <li>重庆大学档案馆讲解团 · 团长</li>
+                <li>机械与运载工程学院辩论队 · 副队长</li>
+                <li>校研究生会实践服务中心 · 成员</li>
+                <li>年级助管</li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- 实践活动 -->
+        <div class="flex items-start space-x-4 py-6">
+            <div class="text-2xl text-green-400">🌱</div>
+            <div class="flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">实践活动</h3>
+            <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                <li>“向阳花开”国创实践项目</li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- 志愿活动 -->
+        <div class="flex items-start space-x-4 py-6">
+            <div class="text-2xl text-purple-400">🤝</div>
+            <div class="flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">志愿活动</h3>
+            <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                <li>重庆长嘉汇半程马拉松志愿服务小组 · 组织与协调</li>
+                <li>第八届“互联网+”创新创业大赛 · 志愿者组长</li>
+                <li>累计志愿时长400+小时</li>
+            </ul>
+            </div>
+        </div>
+
+        </div>
+        </div>
+    </div>
+    </section>
+    
+    <!-- 个人特质 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">个人特质</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-lg font-semibold mb-6 text-blue-400">核心优势</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
+                            情绪稳定，自驱力强
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
+                            跨学科沟通能力突出
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
+                            实验设计与执行能力强
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
+                            学术研究与实践结合
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
+                            团队协作与领导能力
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-lg font-semibold mb-6 text-purple-400">兴趣爱好</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
+                            运动
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
+                            电影
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
+                            宠物
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
+                            音乐
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
+                            逛街
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 联系方式 -->
+    <section class="py-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12">联系我</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-card p-6 rounded-xl text-center">
+                <div class="text-3xl mb-3">📧</div>
+                <h3 class="font-semibold mb-2">邮箱</h3>
+                <p class="text-sm text-gray-400">duyao@seu.edu.cn</p>
+            </div>
+            <div class="glass-card p-6 rounded-xl text-center">
+                <div class="text-3xl mb-3">📞</div>
+                <h3 class="font-semibold mb-2">电话</h3>
+                <p class="text-sm text-gray-400">199-6075-4753</p>
+            </div>
+            </div>
+            
+            <!-- 下载简历：单独一行按钮 -->
+            <!-- 放在「联系我」区域底部 -->
+            <div class="flex justify-center items-center gap-4 mt-8">
+            <!-- 中文 -->
+            <a href="resources/CV-DuYao-CN.pdf" download
+                class="glass-button px-6 py-3 rounded-full inline-flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                下载中文简历
+            </a>
+
+            <!-- 英文 -->
+            <a href="resources/CV-DuYao-EN.pdf" download
+                class="glass-button px-6 py-3 rounded-full inline-flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download English CV
+            </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="py-8 text-center text-gray-400 border-t border-white/10">
+        <p>&copy; 2025 杜瑶. fighting fighting fighting 💪</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 技能条动画
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            const animateSkillBars = () => {
+                skillBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    setTimeout(() => {
+                        bar.style.width = width + '%';
+                    }, 500);
+                });
+            };
+            
+            // 使用Intersection Observer触发动画
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateSkillBars();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            const skillsSection = document.querySelector('.glass-card:has(.skill-progress)');
+            if (skillsSection) {
+                observer.observe(skillsSection);
+            }
+            
+            // 页面加载动画
+            anime({
+                targets: '.glass-card',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 800,
+                easing: 'easeOutQuart',
+                delay: anime.stagger(100)
+            });
+            
+            // 时间线动画
+            anime({
+                targets: '.timeline-item',
+                opacity: [0, 1],
+                translateX: [-50, 0],
+                duration: 600,
+                easing: 'easeOutQuart',
+                delay: anime.stagger(200, {start: 500})
+            });
+            
+            // 按钮交互效果
+            const buttons = document.querySelectorAll('.glass-button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    anime({
+                        targets: this,
+                        scale: 1.05,
+                        duration: 200,
+                        easing: 'easeOutQuart'
+                    });
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    anime({
+                        targets: this,
+                        scale: 1,
+                        duration: 200,
+                        easing: 'easeOutQuart'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

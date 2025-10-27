@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目展示 - 杜瑶</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1a237e;
+            --secondary-blue: #3f51b5;
+            --accent-blue: #2196f3;
+            --light-blue: #e3f2fd;
+            --dark-gray: #212121;
+            --medium-gray: #757575;
+            --light-gray: #fafafa;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .hero-title {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 8px 32px rgba(96, 165, 250, 0.3);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 比例 */
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            cursor: pointer;
+        }
+        
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(96, 165, 250, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .play-button:hover {
+            background: rgba(96, 165, 250, 1);
+            transform: scale(1.1);
+        }
+        
+        .project-filter {
+            transition: all 0.3s ease;
+        }
+        
+        .project-filter.active {
+            background: rgba(96, 165, 250, 0.3);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+        
+        .project-item {
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.5s ease;
+        }
+        
+        .project-item.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+        /* 整个滚动条 */
+        ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        }
+
+        /* 滑轨 */
+        ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 滑块 */
+        ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #60a5fa, #a78bfa);
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+        transition: all 0.3s ease;
+        }
+
+        /* 滑块悬浮 */
+        ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #93c5fd, #c4b5fd);
+        box-shadow: 0 0 12px rgba(96, 165, 250, 0.6);
+        }
+
+        /* 滑块按下 */
+        ::-webkit-scrollbar-thumb:active {
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+
+        /* 隐藏角落 */
+        ::-webkit-scrollbar-corner {
+        background: transparent;
+        }
+        /* 仅对需要滚动的玻璃卡片生效，避免全局污染 */
+        .glass-card {
+        /* 关键：让滚动条在 padding 区域内绘制 */
+        overflow-y: auto;
+        scrollbar-gutter: stable both-edges;   /* 预留稳定空间，防止跳动 */
+        }
+
+        /* 整个滚动条 */
+        .glass-card::-webkit-scrollbar {
+        width: 6px;                /* 细一点更精致 */
+        }
+
+        /* 轨道：完全透明玻璃 */
+        .glass-card::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.03);
+        border-radius: 10px;
+        margin: 12px 0;            /* 上下留出圆角区域，避免顶头 */
+        }
+
+        /* 滑块：雾蓝 + 低饱和 */
+        .glass-card::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.4);   /* slate-400 40% 透明度 */
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+        transition: all .25s ease;
+        }
+
+        /* 悬浮高亮 */
+        .glass-card::-webkit-scrollbar-thumb:hover {
+        background: rgba(148, 163, 184, 0.7);
+        }
+
+        /* Firefox 同步 */
+        .glass-card {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-semibold">
+                    <a href="index.html">杜瑶</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="projects.html" class="nav-link text-blue-400">项目</a>
+                    <a href="research.html" class="nav-link ">研究</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 页面标题 -->
+    <section class="pt-32 pb-16 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="hero-title text-5xl md:text-6xl font-bold mb-6">项目展示</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                在人因工程、AI交互设计和认知科学领域的实践项目
+            </p>
+        </div>
+    </section>
+    
+    <!-- 项目筛选器 -->
+    <section class="pb-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="project-filter glass-button px-6 py-3 rounded-full active" data-filter="all">
+                    全部项目
+                </button>
+                <button class="project-filter glass-button px-6 py-3 rounded-full" data-filter="research">
+                    学术研究
+                </button>
+                <button class="project-filter glass-button px-6 py-3 rounded-full" data-filter="industry">
+                    合作项目
+                </button>
+                <button class="project-filter glass-button px-6 py-3 rounded-full" data-filter="ui-design">
+                    界面设计
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 项目网格 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- 项目1: 领导驾驶舱 -->
+                <div class="project-item glass-card rounded-2xl p-8" data-category="industry ui-design">
+                    <div class="mb-6">
+                        <img src="resources/leader-project.png" alt="领导驾驶舱界面" class="w-full h-64 object-cover rounded-xl">
+                    </div>
+                    
+                    <h3 class="text-2xl font-semibold mb-4">"领导驾驶舱"人机界面工效学分析</h3>
+                    <!-- 时间丝带 -->
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-slate-900/40 text-slate-200 border border-slate-700 backdrop-blur-sm mb-3">
+                     2023.10 – 2025.01
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">人因工程</span>
+                        <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">界面设计</span>
+                        <span class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm">HCII2025</span>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        基于认知负荷理论，针对大屏界面的多图布局设计进行深入研究。通过Unity构建交互实验环境，
+                        结合行为分析和NASA-TLX量表，验证了优化后的界面设计能够显著降低用户的认知负荷。
+                    </p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">核心贡献</h4>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li>• 设计并实施Unity交互实验，招募30+参与者</li>
+                                <li>• 参与完成高保真界面原型</li>
+                                <li>• 参与完成界面设计规范和界面使用说明文档</li>
+                                <li>• HCII 2025会议论文已接收</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">使用工具</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">Unity</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">C#</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">Figma</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">SPSS</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">MATLAB</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button class="glass-button w-full py-3 rounded-lg" 
+                        onclick="showImageGallery('leadership-ui')">
+                        界面展示
+                    </button>
+                    </div>
+                </div>
+                
+                <!-- 项目2: 装备界面平台 -->
+                <div class="project-item glass-card rounded-2xl p-8" data-category="industry ui-design">
+                    <div class="mb-6">
+                        <img src="resources/military-platform.png" alt="装备界面平台" class="w-full h-64 object-cover rounded-xl">
+                    </div>
+                    
+                    <h3 class="text-2xl font-semibold mb-4">装备界面应用平台研发</h3>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-slate-900/40 text-slate-200 border border-slate-700 backdrop-blur-sm mb-3">
+                     2024.02 – 至今
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm">军科委项目</span>
+                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">300+界面</span>
+                        <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">实验范式</span>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        参与军科委合作项目，负责装备界面应用平台的整体交互设计。从竞品调研到功能架构，
+                        再到300+界面的详细设计，平台已接近交付并支持后续的脑机实验与认知工效评估。
+                    </p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">项目职责</h4>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li>• 参与竞品调研与功能架构设计</li>
+                                <li>• 主导设计300+界面交互原型</li>
+                                <li>• 建立设计规范与组件库</li>                                
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">设计工具</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">Figma</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">Xmind</span>                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button class="glass-button flex-1 py-3 rounded-lg" onclick="showImageGallery('components')">组件展示</button>
+                        <button class="glass-button flex-1 py-3 rounded-lg" onclick="showImageGallery('interfaces')">界面展示</button>
+                    </div>
+                </div>
+                
+                <!-- 项目3: 驾驶座椅静态舒适性评价体系研究 -->
+                <div class="project-item glass-card rounded-2xl p-8" data-category="industry ">
+                    <div class="mb-6">
+                        <img src="resources/seat.png" alt="领导驾驶舱界面" class="w-full h-64 object-cover rounded-xl">
+                    </div>
+                    
+                    <h3 class="text-2xl font-semibold mb-4">驾驶座椅静态舒适性评价体系研究</h3>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-slate-900/40 text-slate-200 border border-slate-700 backdrop-blur-sm mb-3">
+                     2022.05 – 2022.09
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-full text-sm">校企合作项目</span>
+                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-sm">逆向建模</span>
+                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">点云采集</span>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        参与校企合作项目，负责多车型座椅点云采集与CATIA逆向建模工作。
+                        研究成果纳入企业数字模型库，为后续产品迭代提供数据支撑。
+                    </p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">核心工作</h4>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li>• 多车型座椅点云采集</li>
+                                <li>• CATIA逆向建模与优化</li>
+                                <li>• 成果纳入企业数字模型库</li>
+                                <li>• 支撑后续产品迭代设计</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">技术工具</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">CATIA</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">点云处理</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">逆向工程</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">数据分析</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button class="glass-button flex-1 py-3 rounded-lg" onclick="showImageGallery('seat-results')">
+                        成果展示
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 项目4: RLHF界面研究 -->
+                <div class="project-item glass-card rounded-2xl p-8" data-category="research ui-design">
+                    <div class="mb-6">
+                        <img src="resources/research-bg.png" alt="领导驾驶舱界面" class="w-full h-64 object-cover rounded-xl">
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-slate-900/40 text-slate-200 border border-slate-700 backdrop-blur-sm mb-3">
+                     2024.11 – 至今
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">面向人类反馈强化学习的界面设计</h3>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-pink-500/20 text-pink-300 rounded-full text-sm">硕士课题</span>
+                        <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">共享心智模型</span>
+                        <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-sm">RLHF</span>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        当前正在进行的硕士课题研究，基于共享心智模型(SMM)理论构建对话式RLHF界面。
+                        通过融合行为数据与眼动数据，验证反馈透明度对认知负荷的影响机制。
+                        搭建垂直数据集，训练垂直小模型。
+                    </p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">研究创新</h4>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li>• 构建SMM驱动的RLHF交互认知框架</li>
+                                <li>• 设计对话式UI并进行实验验证</li>
+                                <li>• 设计-数据-算法的闭环微调</li>                                
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">研究方法</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">Python</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">RLHF</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">眼动追踪</span>
+                                <span class="px-2 py-1 bg-gray-700 text-xs rounded">行为分析</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button class="glass-button flex-1 py-3 rounded-lg" onclick="showImageGallery('research-framework')">研究框架</button>
+                        <button class="glass-button flex-1 py-3 rounded-lg" onclick="showImageGallery('experiment-env')">实验环境</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 图片展示模态框 -->
+    <div id="image-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4">
+            <div class="glass-card rounded-2xl p-6 max-w-4xl max-h-full overflow-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modal-title" class="text-xl font-semibold">图片展示</h3>
+                    <button id="close-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <div id="modal-content" class="space-y-4">
+                    <!-- 图片内容将在这里动态加载 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="py-8 text-center text-gray-400 border-t border-white/10">
+        <p>&copy; 2025 杜瑶. fighting fighting fighting 💪</p>
+    </footer>
+    
+    <script>
+         
+        // 图片展示功能
+        function showImageGallery(type) {
+            const modal = document.getElementById('image-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            
+            // 定义图片数据
+            const imageData = {
+                'leadership-ui': {
+                    title: '界面展示 - 领导驾驶舱',
+                    images: [
+                        {
+                        src: 'resources/leadership-ui/1.png',
+                        title: '项目总览',
+                        description: '领导驾驶舱人机界面工效学分析及优化设计研究'
+                        },
+                        {
+                        src: 'resources/leadership-ui/2.png',
+                        title: '问题分析',
+                        description: '现存问题分析'
+                        },
+                        {
+                        src: 'resources/leadership-ui/3.png',
+                        title: '优化理念',
+                        description: '针对现有设计不足，优化设计，提高用户处理信息效率'
+                        },
+                        {
+                        src: 'resources/leadership-ui/4.png',
+                        title: '优化重点',
+                        description: '分别从视觉层，交互层，功能层，提升驾驶舱界面的整体可用性'
+                        },
+                        {
+                        src: 'resources/leadership-ui/5.png',
+                        title: '色彩风格',
+                        description: '设计三种风格方案，最终选取代表南京地域特色的紫金色风格'
+                        },
+                        {
+                        src: 'resources/leadership-ui/6.png',
+                        title: '细节优化',
+                        description: '针对图表、导航、标题等进行细节优化'
+                        },
+                        {
+                        src: 'resources/leadership-ui/7.png',
+                        title: '主界面',
+                        description: '领导驾驶舱主界面，包含4个子系统'
+                        },
+                        {
+                        src: 'resources/leadership-ui/8.png',
+                        title: '数智化布局界面',
+                        description: '子系统界面-数智化布局-业务管理'
+                        },
+                        {
+                        src: 'resources/leadership-ui/9.png',
+                        title: '智慧化应用',
+                        description: '子系统界面-智慧化应用'
+                        },
+                        {
+                        src: 'resources/leadership-ui/10.png',
+                        title: '项目成果',
+                        description: '项目产出概览'
+                        }
+                    ]
+                    },
+                'components': {
+                    title: '组件展示 - 装备界面应用平台',
+                    images: [
+                        {
+                            src: 'resources/component1.png',
+                            title: 'icon组件设计',
+                            description: '统一规范的icon组件库'
+                        },
+                        {
+                            src: 'resources/component2.png',
+                            title: '表单弹窗组件',
+                            description: '模块化导航组件，支持多种布局模式'
+                        },
+                        {
+                            src: 'resources/component3.png',
+                            title: '表单可视化组件',
+                            description: '标准化表单输入组件集合'
+                        }
+                    ]
+                },
+                'interfaces': {
+                    title: '界面展示 - 装备界面应用平台',
+                    images: [
+                        {
+                            src: 'resources/interface1.png',
+                            title: '界面工效评价界面',
+                            description: '主页-界面工效评价界面-工效评价方案界面'
+                        },
+                        {
+                            src: 'resources/interface 2.png',
+                            title: '素材排序界面',
+                            description: '工效评价方案-编辑实验-素材排序界面'
+                        },
+                        {
+                            src: 'resources/interface 3.png',
+                            title: '人员界面',
+                            description: '工效评价方案-编辑实验-人员导入界面'
+                        }
+                    ]
+                },
+                'seat-results': {
+                    title: '成果展示 - 驾驶座椅舒适性研究',
+                    images: [
+                        {
+                        src: 'resources/seat-results/1.png',
+                        title: '样车实体图片',
+                        description: '样车实验图片展示'
+                        },
+                        {
+                        src: 'resources/seat-results/2 .png',
+                        title: '点云采集成果',
+                        description: '多车型座椅点云数据总览'
+                        },
+                        {
+                        src: 'resources/seat-results/3.png',
+                        title: 'CATIA 逆向建模',
+                        description: '座椅曲面重构与模型输出'
+                        },
+                        
+                    ]
+                    },
+                'research-framework': {
+                    title: '研究框架 - RLHF界面设计研究',
+                    images: [
+                        {
+                            src: 'resources/framework1.png',
+                            title: 'SMM认知框架',
+                            description: '基于共享心智模型的交互认知框架'
+                        },
+                        {
+                            src: 'resources/framework2.png',
+                            title: '研究流程设计',
+                            description: '面向人类反馈强化学习的界面设计与交互优化研究'
+                        },
+                        
+                    ]
+                },
+                'experiment-env': {
+                    title: '实验环境 - RLHF界面设计研究',
+                    images: [
+                        {
+                            src: 'resources/experiment1.png',
+                            title: '实验环境',
+                            description: '眼动追踪与行为数据采集环境'
+                        },
+                        {
+                            src: 'resources/experiment2.png',
+                            title: '用户交互界面',
+                            description: '实验中的用户交互界面原型'
+                        },
+                        
+                    ]
+                }
+            };
+            
+            const data = imageData[type];
+            if (!data) {
+                alert('图片资源正在准备中，敬请期待！');
+                return;
+            }
+            
+            modalTitle.textContent = data.title;
+            modalContent.innerHTML = '';
+            
+            data.images.forEach((image, index) => {
+                const imageElement = document.createElement('div');
+                imageElement.className = 'glass-card p-4 rounded-xl';
+                imageElement.innerHTML = `
+                    <img src="${image.src}" alt="${image.title}" class="w-full h-auto rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none;" class="w-full h-64 bg-gray-700 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-gray-400">图片加载中...</span>
+                    </div>
+                    <h4 class="text-lg font-semibold mb-2">${image.title}</h4>
+                    <p class="text-gray-300 text-sm">${image.description}</p>
+                `;
+                modalContent.appendChild(imageElement);
+            });
+            
+            modal.classList.remove('hidden');
+            
+            // 添加动画效果
+            anime({
+                targets: modal.querySelector('.glass-card'),
+                scale: [0.8, 1],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutQuart'
+            });
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+        }
+        
+        // 项目筛选功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.project-filter');
+            const projectItems = document.querySelectorAll('.project-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // 更新按钮状态
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 筛选项目
+                    projectItems.forEach(item => {
+                        const categories = item.getAttribute('data-category');
+                        
+                        if (filter === 'all' || categories.includes(filter)) {
+                            item.classList.remove('hidden');
+                            anime({
+                                targets: item,
+                                opacity: [0, 1],
+                                scale: [0.8, 1],
+                                duration: 500,
+                                easing: 'easeOutQuart',
+                                delay: Math.random() * 200
+                            });
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+            
+            // 视频播放功能
+            const videoPlayer = document.getElementById('video-player');
+            if (videoPlayer) {
+                videoPlayer.addEventListener('click', function() {
+                    // 这里可以添加实际的视频播放逻辑
+                    alert('视频播放功能 - 这里将播放中冶赛迪建模制图的视频');
+                });
+            }
+            
+            // 关闭模态框事件
+            const closeModalBtn = document.getElementById('close-modal');
+            const modal = document.getElementById('image-modal');
+            
+            if (closeModalBtn && modal) {
+                closeModalBtn.addEventListener('click', closeModal);
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal();
+                    }
+                });
+            }
+            
+            // 按钮交互效果
+            const buttons = document.querySelectorAll('.glass-button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    anime({
+                        targets: this,
+                        scale: 1.05,
+                        duration: 200,
+                        easing: 'easeOutQuart'
+                    });
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    anime({
+                        targets: this,
+                        scale: 1,
+                        duration: 200,
+                        easing: 'easeOutQuart'
+                    });
+                });
+            });
+            
+            // 页面加载动画
+            anime({
+                targets: '.project-item',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutQuart',
+                delay: anime.stagger(200)
+            });
+        });
+    </script>
+</body>
+</html>

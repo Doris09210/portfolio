@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学术研究 - 杜瑶</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1a237e;
+            --secondary-blue: #3f51b5;
+            --accent-blue: #2196f3;
+            --light-blue: #e3f2fd;
+            --dark-gray: #212121;
+            --medium-gray: #757575;
+            --light-gray: #fafafa;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .hero-title {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 8px 32px rgba(96, 165, 250, 0.3);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .research-timeline {
+            position: relative;
+        }
+        
+        .research-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #60a5fa, #a78bfa);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            background: #60a5fa;
+            border-radius: 50%;
+            border: 3px solid #1e293b;
+        }
+        
+        .citation-metric {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(167, 139, 250, 0.2));
+            border: 1px solid rgba(96, 165, 250, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-semibold">
+                    <a href="index.html">杜瑶</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="projects.html" class="nav-link">项目</a>
+                    <a href="research.html" class="nav-link text-blue-400">研究</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 页面标题 -->
+    <section class="pt-32 pb-16 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="hero-title text-5xl md:text-6xl font-bold mb-6">学术研究</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                探索人因工程与AI交互设计的前沿研究，用认知科学让AI更好用
+            </p>
+        </div>
+    </section>
+    
+    <!-- 研究概览 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                <div class="citation-metric glass-card p-6 rounded-xl text-center">
+                    <div class="text-3xl font-bold text-blue-400 mb-2">2</div>
+                    <div class="text-gray-300">发表论文</div>
+                </div>
+                <div class="citation-metric glass-card p-6 rounded-xl text-center">
+                    <div class="text-3xl font-bold text-purple-400 mb-2">1</div>
+                    <div class="text-gray-300">HCII 2025</div>
+                </div>
+                <div class="citation-metric glass-card p-6 rounded-xl text-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2">1</div>
+                    <div class="text-gray-300">在投论文</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 学术论文 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">学术论文</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 论文1 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold mb-3">
+                                Research on the Multi-Chart Layout Design of Large-Screen Interface
+                            </h3>
+                            <p class="text-gray-400 mb-4">HCII 2025 · 第一作者</p>
+                        </div>
+                        <div class="ml-4">
+                            <span class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm">已接收</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        本研究针对大屏界面的多图布局设计问题，通过Unity构建交互实验环境，结合线性混合模型(LMM)进行认知负荷评估。
+                        研究提出了基于认知负荷理论的多图布局优化原则，为复杂信息界面的设计提供了科学依据。
+                    </p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">研究方法</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-blue-500/20 text-xs rounded">Unity实验</span>
+                                <span class="px-2 py-1 bg-purple-500/20 text-xs rounded">LMM分析</span>
+                                <span class="px-2 py-1 bg-green-500/20 text-xs rounded">NASA-TLX</span>                                
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">主要发现</h4>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li>• 优化布局可降低认知负荷</li>
+                                <li>• 信息密度与认知负荷呈非线性关系</li>
+                                <li>• 视觉层次结构影响信息处理效率</li>
+                            </ul>
+                        </div>
+                    </div>                   
+                    
+                </div>
+                
+                <!-- 论文2 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold mb-3">
+                                Designing RLHF Interfaces for Efficient and High-Quality Human Feedback
+                            </h3>
+                            <p class="text-gray-400 mb-4">在投 · 第一作者</p>
+                        </div>
+                        <div class="ml-4">
+                            <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-sm">在投</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        本研究聚焦于人类反馈强化学习(RLHF)中的界面设计问题，基于共享心智模型(SMM)理论构建对话式RLHF界面。
+                        通过融合行为数据与眼动数据，深入探讨反馈透明度对认知负荷的影响机制。
+                    </p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">理论框架</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-pink-500/20 text-xs rounded">共享心智模型</span>
+                                <span class="px-2 py-1 bg-purple-500/20 text-xs rounded">RLHF</span>
+                                <span class="px-2 py-1 bg-indigo-500/20 text-xs rounded">认知负荷</span>
+                                <span class="px-2 py-1 bg-teal-500/20 text-xs rounded">对话式UI</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">预期贡献</h4>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li>• 构建SMM驱动的RLHF交互认知框架</li>
+                                <li>• 设计可验证的对话式UI方案</li>
+                                <li>• 垂直训练的模型</li>
+                                <li>• 提升人机协作效率的设计策略</li>
+                            </ul>
+                        </div>
+                    </div>                    
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 研究时间线 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">研究历程</h2>
+            
+            <div class="research-timeline">
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">硕士课题启动</h3>
+                            <span class="text-sm text-gray-400">2024.11</span>
+                        </div>
+                        <p class="text-gray-300">
+                            开始"面向人类反馈强化学习的界面设计与交互优化研究"课题，构建理论框架和研究方法。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">HCII 2025论文接收</h3>
+                            <span class="text-sm text-gray-400">2024.12</span>
+                        </div>
+                        <p class="text-gray-300">
+                            领导驾驶舱界面优化研究论文被HCII 2025会议接收，2025年6月在会议上发表。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">RLHF研究在投</h3>
+                            <span class="text-sm text-gray-400">2025.11</span>
+                        </div>
+                        <p class="text-gray-300">
+                            完成RLHF界面设计研究，提交至人机交互期刊，正在投稿中。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">预期毕业</h3>
+                            <span class="text-sm text-gray-400">2026.06</span>
+                        </div>
+                        <p class="text-gray-300">
+                            完成硕士学位，继续在人因工程与AI交互设计领域深入研究。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 研究兴趣 -->
+    <section class="pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">研究兴趣</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <img src="resources/icon-cognitive.svg" class="w-12 h-12 mx-auto mb-3" alt="认知人因工程"/>
+                    <p class="text-gray-300 text-sm">
+                        研究人类认知能力与界面设计的匹配关系，优化人机交互的认知效率。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <img src="resources/icon-ai.svg" class="w-12 h-12 mx-auto mb-3" alt="AI交互设计"/>
+                    <p class="text-gray-300 text-sm">
+                        探索人工智能系统的交互设计原则，让AI更易于理解和使用。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <img src="resources/icon-eye.svg" class="w-12 h-12 mx-auto mb-3" alt="眼动追踪研究"/>
+                    <p class="text-gray-300 text-sm">
+                        运用眼动技术深入理解用户的视觉注意机制，指导界面布局优化。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <img src="resources/icon-viz.svg" class="w-12 h-12 mx-auto mb-3" alt="数据可视化"/>
+                    <p class="text-gray-300 text-sm">
+                        研究复杂数据的可视化表达方法，提升信息传达的效率和准确性。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <img src="resources/icon-rlhf.svg" class="w-12 h-12 mx-auto mb-3" alt="RLHF 优化"/>
+                    <p class="text-gray-300 text-sm">
+                        探索人类反馈强化学习中的界面设计，提升反馈质量和效率。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <img src="resources/icon-ux.svg" class="w-12 h-12 mx-auto mb-3" alt="用户体验研究"/>
+                    <p class="text-gray-300 text-sm">
+                        开发用户交互体验的量化和度量方法，建立科学的评估体系。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    <!-- 页脚 -->
+    <footer class="py-8 text-center text-gray-400 border-t border-white/10">
+        <p>&copy; 2025 杜瑶. fighting fighting fighting 💪</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 页面加载动画
+            anime({
+                targets: '.glass-card',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 800,
+                easing: 'easeOutQuart',
+                delay: anime.stagger(100)
+            });
+            
+            // 时间线动画
+            anime({
+                targets: '.timeline-item',
+                opacity: [0, 1],
+                translateX: [-50, 0],
+                duration: 600,
+                easing: 'easeOutQuart',
+                delay: anime.stagger(200, {start: 500})
+            });
+            
+            // 按钮交互效果
+            const buttons = document.querySelectorAll('.glass-button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    anime({
+                        targets: this,
+                        scale: 1.05,
+                        duration: 200,
+                        easing: 'easeOutQuart'
+                    });
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    anime({
+                        targets: this,
+                        scale: 1,
+                        duration: 200,
+                        easing: 'easeOutQuart'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
